@@ -1,0 +1,256 @@
+﻿/* General Body Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #D9D9D9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: white;
+}
+
+/* Header Styling */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000;
+    padding: 10px 20px;
+}
+
+/* Header User Info Styling */
+.header-user-info .user-role {
+    font-family: 'Open Sans', Arial, sans-serif;
+    color: #D9D9D9; /* Default color for User role */
+}
+
+    .header-user-info .user-role.admin {
+        color: #E30000; /* Color for Admin role */
+    }
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+    .navigation a {
+        color: #B1B1B1;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 16px;
+    }
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+    .search-bar input {
+        padding: 10px;
+        border: none;
+        outline: none;
+        width: 300px;
+        border-radius: 20px 0 0 20px;
+    }
+
+    .search-bar button {
+        padding: 10px;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .search-bar button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .search-bar button:disabled {
+            cursor: auto;
+            opacity: 0.5;
+        }
+
+.user-icons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+    .user-icons a {
+        margin: 0 10px;
+    }
+
+    .user-icons img {
+        width: 24px;
+        height: 24px;
+    }
+
+.authenticated-user {
+    display: flex;
+    align-items: center;
+}
+
+    .authenticated-user a {
+        color: white;
+        text-decoration: none;
+        margin-right: 10px;
+    }
+
+    .authenticated-user .user-role {
+        font-size: 12px;
+        color: #B1B1B1;
+    }
+
+    .authenticated-user button img {
+        width: 24px;
+        height: 24px;
+    }
+.header-user-info {
+    display: flex;
+    text-align:center;
+    margin-bottom: -18px;
+}
+.header-admin-role {
+    color: #E30000;
+    
+}
+.header-user-role {
+    color: #D9D9D9;
+}
+/* Footer Styling */
+.footer {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 20px 0;
+    margin-top: auto;
+}
+
+    .footer .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-logo {
+    text-align: left;
+}
+
+.footer-name {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+}
+
+.footer-contact {
+    text-align: right;
+}
+
+    .footer-contact p {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .footer-contact img.footer-icon {
+        margin-right: 10px;
+    }
+
+.footer-address {
+    text-align: left;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+    flex-wrap: wrap;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: flex-start;
+}
+
+    .footer-links a {
+        margin-right: 15px;
+        color: white;
+        text-decoration: none;
+    }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+.footer-bottom p {
+    text-align: right;
+    font-size: 14px;
+}
+
+/* Container Styling */
+.container {
+    flex: 1;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-bar {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .footer-content,
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-contact {
+        text-align: center;
+    }
+
+    .footer-bottom p {
+        text-align: center;
+        margin-top: 10px;
+    }
+}

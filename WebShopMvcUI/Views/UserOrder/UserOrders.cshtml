@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Order>
+@{
+}
+<div style="width:100%" class="mt-2">
+    <a href="/Identity/Account/Manage" class="btn btn-primary my-2">Назад</a>
+
+    <h4>Замовлення</h4>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <table class="table table-striped">
+            <tr>
+                <th>Дата</th>
+                <th>Статус</th>
+            </tr>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.CreateDate.ToString("dd-MM-yyyy")</td>
+                    <td>@order.OrderStatus.StatusName</td>
+                </tr>
+                @if (order.OrderDetail != null && order.OrderDetail.Count > 0)
+                {
+                    <tr>
+                        <td>
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>
+                                        Сума:
+                                    </td>
+                                    <td>
+                                        @(order.OrderDetail.Select(item => item.Item.Price * item.Quantity).Sum()) грн
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Назва</th>
+                                    <th>Зображення</th>
+                                    <th>Тип</th>
+                                    <th>Ціна</th>
+                                    <th>Загальна сума</th>
+                                </tr>
+                                @foreach (var item in order.OrderDetail)
+                                {
+                                    <tr>
+                                        <td>@item.Item.ItemName</td>
+                                        <td>
+                                            @if (string.IsNullOrEmpty(item.Item.Image))
+                                            {
+                                                <img src="/images/NoImage.png" style="width:80px;height:100px" />
+                                            }
+                                            else
+                                            {
+                                                <img src="/images/@item.Item.Image" style="width:80px;height:100px" />
+                                            }
+                                        </td>
+                                        <td>@item.Item.Genre.GenreName</td>
+                                        <td>@item.Item.Price X @item.Quantity</td>
+                                        <td> @(item.Item.Price * item.Quantity) </td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+
+    }
+    else
+    {
+        <h5>No orders</h5>
+    }
+</div>
+
+
+

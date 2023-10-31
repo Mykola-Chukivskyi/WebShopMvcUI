@@ -1,0 +1,23 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var user = await UserManager.GetUserAsync(User);
+    var isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+}
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Профіль</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Пошта</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Пароль</a></li>
+    @if (hasExternalLogins)
+    {
+        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">Зовнішні входи</a></li>
+    }
+    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Двофакторна аутентифікація</a></li>
+    @if (isAdmin)
+    {
+        <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)
+            " id="personal-data" asp-page="./PersonalData">Особисті дані</a></li>
+    }
+    <li class="nav-item"><a class="nav-link "href="/UserOrder/UserOrders">Замовлення</a></li>
+</ul>
