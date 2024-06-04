@@ -16,8 +16,10 @@
     <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Двофакторна аутентифікація</a></li>
     @if (isAdmin)
     {
-        <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)
-            " id="personal-data" asp-page="./PersonalData">Особисті дані</a></li>
+        <li class="nav-item">
+            <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)
+                " id="personal-data" asp-page="./PersonalData">Особисті дані</a>
+        </li>
     }
-    <li class="nav-item"><a class="nav-link "href="/UserOrder/UserOrders">Замовлення</a></li>
+    <li class="nav-item"><a class="nav-link " href="/UserOrder/UserOrders">Замовлення</a></li>
 </ul>
