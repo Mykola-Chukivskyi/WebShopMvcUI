@@ -19,7 +19,7 @@ public class AdminController : Controller
         _context = context;
     }
 
-    public IActionResult AdminPanel()
+    public IActionResult ManageItem()
     {
         var items = _itemRepository.GetAllItems();
         return View(items);
@@ -50,7 +50,7 @@ public class AdminController : Controller
                 }
                 _itemRepository.AddItem(item);
                 TempData["SuccessMessage"] = "Item added successfully!";
-                return RedirectToAction("AdminPanel");
+                return RedirectToAction("ManageItem");
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ public class AdminController : Controller
                 }
                 _itemRepository.UpdateItem(item);
                 TempData["SuccessMessage"] = "Item updated successfully!";
-                return RedirectToAction("AdminPanel");
+                return RedirectToAction("ManageItem");
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ public class AdminController : Controller
         {
             TempData["ErrorMessage"] = "Error deleting item: " + ex.Message;
         }
-        return RedirectToAction("AdminPanel");
+        return RedirectToAction("ManageItem");
     }
 
     private IEnumerable<SelectListItem> GetGenresSelectList()
