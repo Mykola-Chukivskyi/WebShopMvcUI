@@ -1,0 +1,89 @@
+﻿@model WebShopMvcUI.Models.Item
+
+<h2>Створити новий товар</h2>
+
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form asp-action="CreateItem" method="post" enctype="multipart/form-data" class="p-3 border rounded shadow-sm">
+    <div class="form-group">
+        <label asp-for="ItemName">Назва товару</label>
+        <input asp-for="ItemName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="AuthorName">Автор</label>
+        <input asp-for="AuthorName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Price">Ціна</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="GenreId">Жанр</label>
+        <select asp-for="GenreId" class="form-control" asp-items="ViewBag.Genres"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image">Зображення (не обов'язково)</label>
+        <input asp-for="Image" type="file" class="form-control" id="imageUploadCreate" />
+        <input type="hidden" id="currentImageCreate" value="" />
+    </div>
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+</form>
+
+<script>
+    window.onload = function () {
+        var fileInput = document.getElementById("imageUploadCreate");
+
+        // Обробка події change для збереження назви зображення
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files.length === 0) {
+                var currentImage = document.getElementById("currentImageCreate").value;
+                var dataTransfer = new DataTransfer();
+                var file = new File([""], currentImage, { type: "text/plain" });
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+            }
+        });
+    };
+</script>
+
+<style>
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        padding: .375rem .75rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .border {
+        border: 1px solid #dee2e6 !important;
+    }
+
+    .rounded {
+        border-radius: .25rem !important;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+    }
+</style>
