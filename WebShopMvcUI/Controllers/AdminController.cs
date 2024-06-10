@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 public class AdminController : Controller
 {
@@ -145,5 +146,106 @@ public class AdminController : Controller
                 Text = g.GenreName
             })
             .ToList();
+    }
+
+    // GET: Admin/OrderList
+    public async Task<IActionResult> OrderList()
+    {
+        var orders = await _context.Orders.Include(o => o.OrderStatus).ToListAsync();
+        return View(orders);
+    }
+
+    // GET: Admin/EditOrderStatus/5
+    public async Task<IActionResult> EditOrderStatus(int id)
+    {
+        var order = await _context.Orders.Include(o => o.OrderStatus).FirstOrDefaultAsync(o => o.Id == id);
+        if (order == null)
+        {
+            TempData["ErrorMessage"] = "Order not found.";
+            return RedirectToAction(nameof(OrderList));
+        }
+
+        ViewBag.OrderStatuses = new SelectList(await _context.OrderStatuses.ToListAsync(), "Id", "StatusName");
+        return View(order);
+    }
+
+    // POST: Admin/EditOrderStatus/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditOrderStatus(int id, [Bind("Id,UserId,CreateDate,OrderStatusId,IsDeleted")] Order order)
+    {
+        if (id != order.Id)
+        {
+            TempData["ErrorMessage"] = "Order ID mismatch.";
+            return RedirectToAction(nameof(OrderList));
+        }
+
+        var existingOrder = await _context.Orders.FindAsync(id);
+        if (existingOrder == null)
+        {
+            TempData["ErrorMessage"] = "Order not found.";
+            return RedirectToAction(nameof(OrderList));
+        }
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                existingOrder.OrderStatusId = order.OrderStatusId;
+                _context.Update(existingOrder);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Order status updated successfully.";
+                return RedirectToAction(nameof(OrderList));
+            }
+            catch (DbUpdateException ex)
+            {
+                TempData["ErrorMessage"] = $"Error updating order status: {ex.Message}";
+            }
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Invalid data.";
+        }
+
+        ViewBag.OrderStatuses = new SelectList(await _context.OrderStatuses.ToListAsync(), "Id", "StatusName");
+        return View(order);
+    }
+
+    // GET: Admin/DeleteOrder/5
+    public async Task<IActionResult> DeleteOrder(int id)
+    {
+        var order = await _context.Orders.Include(o => o.OrderStatus).FirstOrDefaultAsync(o => o.Id == id);
+        if (order == null)
+        {
+            TempData["ErrorMessage"] = "Order not found.";
+            return RedirectToAction(nameof(OrderList));
+        }
+        return View(order);
+    }
+
+    // POST: Admin/DeleteOrder/5
+    [HttpPost, ActionName("DeleteOrder")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var order = await _context.Orders.FindAsync(id);
+        if (order == null)
+        {
+            TempData["ErrorMessage"] = "Order not found.";
+            return RedirectToAction(nameof(OrderList));
+        }
+
+        try
+        {
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Order deleted successfully.";
+        }
+        catch (DbUpdateException ex)
+        {
+            TempData["ErrorMessage"] = $"Error deleting order: {ex.Message}";
+        }
+
+        return RedirectToAction(nameof(OrderList));
     }
 }
